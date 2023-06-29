@@ -34,8 +34,9 @@ class BaseScreen:
             if self.element_is_displayed("GooglePlayUpdateDeclineButton", timeout=2):
                 self.click_element("GooglePlayUpdateDeclineButton")
 
-    def wait_for_screen_loaded(self, timeout=15):
-        self.close_google_play_update_if_displayed()
+    def wait_for_screen_loaded(self, timeout=15, check_google_play_popup=False):
+        if check_google_play_popup:
+            self.close_google_play_update_if_displayed()
         for locator in self.required_elements:
             self.wait_for_element_is_visible(locator, timeout=timeout)
         return self
