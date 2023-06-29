@@ -15,13 +15,17 @@ class BaseScreen:
         }
         self.required_elements = []
 
-    def wait_for_element_is_visible(self, locator, by=By.XPATH, timeout=15):
+    def wait_for_element_is_visible(self, element, by=By.XPATH, timeout=15):
+        try:
+            locator = self.elements[element]
+        except KeyError:
+            locator = element
         WebDriverWait(self.context.driver, timeout).until(ec.visibility_of_element_located((by, locator)))
 
     def close_google_play_update_if_displayed(self):
         if self.context.driver.desired_capabilities['platformName'].lower() == "android":
-            if self.element_is_displayed(self.elements["GooglePlayUpdateDeclineButton"], timeout=2):
-                self.click_element(self.elements["GooglePlayUpdateDeclineButton"])
+            if self.element_is_displayed("GooglePlayUpdateDeclineButton", timeout=2):
+                self.click_element("GooglePlayUpdateDeclineButton")
 
     def wait_for_screen_loaded(self, timeout=15):
         self.close_google_play_update_if_displayed()
@@ -29,21 +33,29 @@ class BaseScreen:
             self.wait_for_element_is_visible(locator, timeout=timeout)
         return self
 
-    def element_is_displayed(self, locator, by=By.XPATH, timeout=0):
+    def element_is_displayed(self, element, by=By.XPATH, timeout=0):
+        try:
+            locator = self.elements[element]
+        except KeyError:
+            locator = element
         try:
             self.wait_for_element_is_visible(locator, by=by, timeout=timeout)
             return True
         except TimeoutException:
             return False
 
-    def click_element(self, element_name, by=By.XPATH):
-        locator = self.elements.get(element_name)
+    def click_element(self, element, by=By.XPATH):
+        try:
+            locator = self.elements[element]
+        except KeyError:
+            locator = element
         self.context.driver.find_element(value=locator, by=by).click()
 
-    def click_element_by_locator(self, locator, by=By.XPATH):
-        self.context.driver.find_element(value=locator, by=by).click()
-
-    def send_keys_to_element(self, locator, text, by=By.XPATH):
+    def send_keys_to_element(self, element, text, by=By.XPATH):
+        try:
+            locator = self.elements[element]
+        except KeyError:
+            locator = element
         self.context.driver.find_element(value=locator, by=by).send_keys(text)
 
     def swipe(self, direction, times=1, duration=500):
