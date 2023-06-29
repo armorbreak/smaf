@@ -36,7 +36,11 @@ class BaseScreen:
         except TimeoutException:
             return False
 
-    def click_element(self, locator, by=By.XPATH):
+    def click_element(self, element_name, by=By.XPATH):
+        locator = self.elements.get(element_name)
+        self.context.driver.find_element(value=locator, by=by).click()
+
+    def click_element_by_locator(self, locator, by=By.XPATH):
         self.context.driver.find_element(value=locator, by=by).click()
 
     def send_keys_to_element(self, locator, text, by=By.XPATH):
