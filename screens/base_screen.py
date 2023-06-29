@@ -22,6 +22,13 @@ class BaseScreen:
             locator = element
         WebDriverWait(self.context.driver, timeout).until(ec.visibility_of_element_located((by, locator)))
 
+    def wait_for_element_disappear(self, element, by=By.XPATH, timeout=15):
+        try:
+            locator = self.elements[element]
+        except KeyError:
+            locator = element
+        WebDriverWait(self.context.driver, timeout).until(ec.invisibility_of_element_located((by, locator)))
+
     def close_google_play_update_if_displayed(self):
         if self.context.driver.desired_capabilities['platformName'].lower() == "android":
             if self.element_is_displayed("GooglePlayUpdateDeclineButton", timeout=2):
