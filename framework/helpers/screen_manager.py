@@ -1,11 +1,11 @@
-import screens
+from framework.base_elements import BaseScreen
 
 
 class ScreenManager:
     def __init__(self, context):
         self.context = context
         self.screens = {
-            "BaseScreen": screens.BaseScreen,
+            "BaseScreen": BaseScreen,
         }
 
     def get_screen(self, screen_name):

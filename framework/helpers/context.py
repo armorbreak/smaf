@@ -1,5 +1,5 @@
-from helpers.screen_manager import ScreenManager
-from config import capabilities, default_appium_executor
+from framework.helpers.screen_manager import ScreenManager
+from framework.config import capabilities, default_appium_executor
 from appium import webdriver
 
 

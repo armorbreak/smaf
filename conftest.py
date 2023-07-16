@@ -1,5 +1,5 @@
 import pytest
-from helpers.context import Context
+from framework.helpers.context import Context
 
 
 @pytest.fixture(scope='class')
